@@ -1,10 +1,9 @@
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
+function App({message}) {
   return (
     <div className="App">
-      Test
+      Test {message}
     </div>
   );
 }
