@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Categories() {
   const categories = [
@@ -17,7 +18,7 @@ export default function Categories() {
       <ul>
         {categories.map((item, idx) => (
           <li
-            key={idx}
+            key={uuidv4()}
             onClick={() => setActiveIndex(idx)}
             className={activeIndex === idx ? "active" : null}
           >

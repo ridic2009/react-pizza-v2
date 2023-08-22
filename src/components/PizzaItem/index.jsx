@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
 
 export default function PizzaItem({ title, price, imageUrl, sizes, types }) {
 
@@ -21,12 +22,12 @@ export default function PizzaItem({ title, price, imageUrl, sizes, types }) {
       <div className="pizza-block__selector">
         <ul>
           {types.map((num, idx) => (
-            <li onClick={() => setActiveType(idx)} className={activeType === idx ? 'active' : null} key={idx}>{typeOfDough[num]}</li>
+            <li onClick={() => setActiveType(idx)} className={activeType === idx ? 'active' : null} key={uuidv4()}>{typeOfDough[num]}</li>
           ))}
         </ul>
         <ul>
           {sizes.map((size, idx) => (
-            <li onClick={() => setActiveSize(idx)} className={activeSize === idx ? 'active' : null} key={idx}>{size} см</li>
+            <li onClick={() => setActiveSize(idx)} className={activeSize === idx ? 'active' : null} key={uuidv4()}>{size} см</li>
           ))}
         </ul>
       </div>

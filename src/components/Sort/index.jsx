@@ -1,8 +1,21 @@
+import { useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
+
 export default function Sort() {
+  const sortMethod = ["популярности", "цене", "алфавиту", "ещё какой-нибудь хуйне", 'и ещё'];
+  const [activeSort, setActiveSort] = useState("популярности");
+  const [isOpen, setIsOpen] = useState(false);
+
+  const onClickSelectedSortMethod = (sort) => {
+    setActiveSort(sort)
+    setIsOpen(false)
+  }
+
   return (
     <div className="sort">
       <div className="sort__label">
         <svg
+          transform={isOpen ? 'rotate(0)' : 'rotate(180)'}
           width="10"
           height="6"
           viewBox="0 0 10 6"
@@ -15,15 +28,23 @@ export default function Sort() {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span>популярности</span>
+        <span onClick={() => setIsOpen(!isOpen)}>{activeSort}</span>
       </div>
-      <div className="sort__popup">
-        <ul>
-          <li className="active">популярности</li>
-          <li>цене</li>
-          <li>алфавиту</li>
-        </ul>
-      </div>
+      {isOpen && (
+        <div className="sort__popup">
+          <ul>
+            {sortMethod.map((methodName, idx) => (
+              <li
+                onClick={() => onClickSelectedSortMethod(methodName)}
+                className={activeSort === idx ? "active" : null}
+                key={uuidv4()}
+              >
+                {methodName}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,40 +1,51 @@
 import Header from "./components/Header";
-import Categories from "./components/Categories";
-import Sort from "./components/Sort";
-import PizzaItem from "./components/PizzaItem";
-import items from "./assets/data.json";
+
+import Home from "./pages/Home";
+import Cart from "./pages/Cart";
+import NotFound from "./pages/NotFound";
 
 import "./scss/app.scss";
+import { createContext, useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
+
+export const AppContext = createContext();
 
 function App() {
+  useEffect(() => {
+    const fetchPizzaFromBackend = async () => {
+      try {
+        const resp = await fetch(
+          "https://64e4d6a0c55563802913d5cf.mockapi.io/pizza"
+        );
+        const data = await resp.json();
+        setItems(data);
+      } catch (error) {
+        console.error("При запросе данных произошла ошибка! >:(", error);
+      } finally {
+        console.log("test");
+        setIsLoading(false);
+      }
+    };
+    fetchPizzaFromBackend();
+  }, []);
+
+  const [items, setItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <div className="App">
-      <div className="wrapper">
-        <Header />
-        <div className="content">
-          <div className="container">
-            <div className="content__top">
-              <Categories />
-              <Sort />
-            </div>
-            <h2 className="content__title">Все пиццы</h2>
-            <div className="content__items">
-              {items.map((item, idx) => (
-                <PizzaItem
-                  key={idx}
-                  title={item.title}
-                  price={item.price}
-                  imageUrl={item.imageUrl}
-                  sizes={item.sizes}
-                  types={item.types}
-                />
-              ))}
-            </div>
-          </div>
+    <AppContext.Provider value={{ items, isLoading }}>
+      <div className="App">
+        <div className="wrapper">
+          <Header />
+
+          <Routes>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="/cart" element={<Cart />}></Route>
+            <Route path="/404" element={<NotFound />}></Route>
+          </Routes>
         </div>
       </div>
-    </div>
+    </AppContext.Provider>
   );
 }
 
