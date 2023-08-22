@@ -1,11 +1,13 @@
-import Header from './components/Header';
-import Categories from './components/Categories';
-import Sort from './components/Sort';
-import PizzaItem from './components/PizzaItem';
+import Header from "./components/Header";
+import Categories from "./components/Categories";
+import Sort from "./components/Sort";
+import PizzaItem from "./components/PizzaItem";
+import items from "./assets/data.json";
 
-import './scss/app.scss'
+import "./scss/app.scss";
 
 function App() {
+
   return (
     <div className="App">
       <div className="wrapper">
@@ -18,14 +20,16 @@ function App() {
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
-              <PizzaItem />
-              <PizzaItem />
-              <PizzaItem />
-              <PizzaItem />
-              <PizzaItem />
-              <PizzaItem />
-              <PizzaItem />
-              <PizzaItem />
+              {items.map((item, idx) => (
+                <PizzaItem
+                  key={idx}
+                  title={item.title}
+                  price={item.price}
+                  imageUrl={item.imageUrl}
+                  sizes={item.sizes}
+                  types={item.types}
+                />
+              ))}
             </div>
           </div>
         </div>
