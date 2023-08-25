@@ -1,7 +1,7 @@
-@import './variables';
-@import 'libs/normalize';
+@import "./variables";
+@import "libs/normalize";
 
-@import 'components/all';
+@import "components/all";
 
 body {
   background-color: $background;
@@ -24,10 +24,22 @@ body {
   }
 
   &__items {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 42px;
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 10px;
+    grid-row-gap: 42px;
+
+    @media screen and (max-width: 1400px) {
+    }
+
+    @media screen and (max-width: 1070px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media screen and (max-width: 740px) {
+      grid-template-columns: repeat(1, 1fr);
+    }
   }
 
   &__top {
@@ -48,6 +60,8 @@ body {
       margin: 0;
     }
   }
+
+
 }
 
 .cart {
@@ -55,6 +69,10 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  .content__items {
+    display: block;
   }
 
   .content__title {

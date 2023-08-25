@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { v4 as uuidv4 } from 'uuid';
+import { useContext } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { AppContext } from "../../App";
 
 export default function Categories() {
   const categories = [
@@ -11,7 +12,8 @@ export default function Categories() {
     "Закрытые"
   ];
 
-  const [activeIndex, setActiveIndex] = useState(0);
+
+  const { activeIndex, filterByCategory } = useContext(AppContext);
 
   return (
     <div className="categories">
@@ -19,7 +21,7 @@ export default function Categories() {
         {categories.map((item, idx) => (
           <li
             key={uuidv4()}
-            onClick={() => setActiveIndex(idx)}
+            onClick={() => filterByCategory(idx, item)}
             className={activeIndex === idx ? "active" : null}
           >
             {item}
