@@ -1,21 +1,27 @@
-import { useState } from "react";
-import { v4 as uuidv4 } from 'uuid';
+import { useContext } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { AppContext } from "../../App";
 
 export default function Sort() {
-  const sortMethod = ["популярности", "цене", "алфавиту", "ещё какой-нибудь хуйне", 'и ещё'];
-  const [activeSort, setActiveSort] = useState("популярности");
-  const [isOpen, setIsOpen] = useState(false);
+  
+  const sortMethod = [
+    "популярности",
+    "цене",
+    "алфавиту",
+    "ещё какой-нибудь хуйне",
+    "и ещё"
+  ];
 
-  const onClickSelectedSortMethod = (sort) => {
-    setActiveSort(sort)
-    setIsOpen(false)
-  }
+  const { isOpen, setIsOpen, activeSort, sortItems } = useContext(AppContext);
+
+
+
 
   return (
     <div className="sort">
       <div className="sort__label">
         <svg
-          transform={isOpen ? 'rotate(0)' : 'rotate(180)'}
+          transform={isOpen ? "rotate(0)" : "rotate(180)"}
           width="10"
           height="6"
           viewBox="0 0 10 6"
@@ -35,7 +41,7 @@ export default function Sort() {
           <ul>
             {sortMethod.map((methodName, idx) => (
               <li
-                onClick={() => onClickSelectedSortMethod(methodName)}
+                onClick={() => sortItems(methodName)}
                 className={activeSort === idx ? "active" : null}
                 key={uuidv4()}
               >
