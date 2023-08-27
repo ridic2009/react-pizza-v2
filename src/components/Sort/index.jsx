@@ -1,21 +1,21 @@
-import { useContext } from "react";
+import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { AppContext } from "../../App";
 
-export default function Sort() {
-  
-  const sortMethod = [
-    "популярности",
-    "цене",
-    "алфавиту",
-    "ещё какой-нибудь хуйне",
-    "и ещё"
+export default function Sort({ value, onChangeSort }) {
+  const sortList = [
+    { name: "популярности", sort: "rating" },
+    { name: "цене", sort: "price" },
+    { name: "алфавиту", sort: "title" },
+    { name: "ещё какой-нибудь хуйне", sort: "title" },
+    { name: "и ещё", sort: "title" }
   ];
 
-  const { isOpen, setIsOpen, activeSort, sortItems } = useContext(AppContext);
+  const [isOpen, setIsOpen] = useState(false);
 
-
-
+  const onClickSort = methodName => {
+    onChangeSort(methodName);
+    setIsOpen(false);
+  };
 
   return (
     <div className="sort">
@@ -34,18 +34,18 @@ export default function Sort() {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setIsOpen(!isOpen)}>{activeSort}</span>
+        <span onClick={() => setIsOpen(!isOpen)}>{value.name}</span>
       </div>
       {isOpen && (
         <div className="sort__popup">
           <ul>
-            {sortMethod.map((methodName, idx) => (
+            {sortList.map((obj) => (
               <li
-                onClick={() => sortItems(methodName)}
-                className={activeSort === idx ? "active" : null}
+                onClick={() => onClickSort(obj)}
+                className={value.sort === obj.sort && value.name === obj.name ? "active" : null}
                 key={uuidv4()}
               >
-                {methodName}
+                {obj.name}
               </li>
             ))}
           </ul>

@@ -1,8 +1,7 @@
-import { useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { AppContext } from "../../App";
 
-export default function Categories() {
+export default function Categories({value, onChangeCategory}) {
+
   const categories = [
     "Все",
     "Мясные",
@@ -12,17 +11,14 @@ export default function Categories() {
     "Закрытые"
   ];
 
-
-  const { activeIndex, filterByCategory } = useContext(AppContext);
-
   return (
     <div className="categories">
       <ul>
         {categories.map((item, idx) => (
           <li
             key={uuidv4()}
-            onClick={() => filterByCategory(idx, item)}
-            className={activeIndex === idx ? "active" : null}
+            onClick={() => onChangeCategory(idx)}
+            className={value === idx ? "active" : null}
           >
             {item}
           </li>
