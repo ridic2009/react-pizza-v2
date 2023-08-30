@@ -15,6 +15,7 @@ export default function Home({ value }) {
     sort: "rating"
   });
   const [activeIndex, setActiveIndex] = useState(0);
+  const [currentPage, setCurrentPage]= useState(1)
 
   const search = value ? `&search=${value}` : "";
 
@@ -23,7 +24,7 @@ export default function Home({ value }) {
     const fetchPizzaFromBackend = async () => {
       try {
         const resp = await fetch(
-          `https://64e4d6a0c55563802913d5cf.mockapi.io/pizza?page=1&limit=4&sortBy=${
+          `https://64e4d6a0c55563802913d5cf.mockapi.io/pizza?page=${currentPage}&limit=4&sortBy=${
             sortMethod.sort
           }&category=${activeIndex === 0 ? '' : activeIndex}&order=desc`
         );
@@ -37,7 +38,7 @@ export default function Home({ value }) {
       }
     };
     fetchPizzaFromBackend();
-  }, [sortMethod, activeIndex, value]);
+  }, [sortMethod, activeIndex, value, currentPage]);
 
   return (
     <div className="content">
@@ -55,7 +56,7 @@ export default function Home({ value }) {
             ? [...new Array(10)].map(item => <Loader key={uuidv4()} />)
             : items.map(item => <PizzaItem key={uuidv4()} {...item} />)}
         </div>
-        <Pagination />
+        <Pagination onChangePage={numberOfPage => setCurrentPage(numberOfPage)}/>
       </div>
     </div>
   );
