@@ -47,7 +47,7 @@ function App() {
           <Header value={searchValue} setValue={setSearchValue}/>
 
           <Routes>
-            <Route path="/" element={<Home value={searchValue} setValue={setSearchValue}/>}></Route>
+            <Route path="/" element={<Home value={searchValue} />}></Route>
             <Route path="/cart" element={<Cart />}></Route>
             <Route path="*" element={<NotFound />}></Route>
           </Routes>
