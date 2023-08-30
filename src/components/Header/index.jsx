@@ -1,7 +1,10 @@
 import pizzaLogo from "../../assets/img/pizza-logo.svg";
 import { Link } from "react-router-dom";
+import Search from "../Search";
+import { useState } from "react";
 
-export default function Header() {
+export default function Header({value, setValue}) {
+
   return (
     <div className="header">
       <div className="container">
@@ -14,6 +17,7 @@ export default function Header() {
             </div>
           </div>
         </Link>
+        <Search value={value} setValue={setValue}/>
         <div className="header__cart">
           <Link to="/cart">
             <div className="button button--cart">

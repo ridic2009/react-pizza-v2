@@ -9,7 +9,7 @@ import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../App";
 
 
-export default function Home() {
+export default function Home({value}) {
 
 
 
@@ -17,12 +17,14 @@ export default function Home() {
     const [sortMethod, setSortMethod] = useState({name: 'популярности', sort: 'rating'})
     const [activeIndex, setActiveIndex] = useState(0);
 
+    const search = value ? `&search=${value}` : ''
+
     useEffect(() => {
       setIsLoading(true)
       const fetchPizzaFromBackend = async () => {
         try {
           const resp = await fetch(
-            `https://64e4d6a0c55563802913d5cf.mockapi.io/pizza?sortBy=${sortMethod.sort}&category=${activeIndex === 0 ? '' : activeIndex}&order='asc'`
+            `https://64e4d6a0c55563802913d5cf.mockapi.io/pizza?&sortBy=${sortMethod.sort}&category=${activeIndex === 0 ? '' : activeIndex}&order='asc'${search}`
           );
           const data = await resp.json();
           setItems(data);
@@ -34,7 +36,7 @@ export default function Home() {
         }
       };
       fetchPizzaFromBackend();
-    }, [sortMethod, activeIndex]);
+    }, [sortMethod, activeIndex, value]);
 
     return (
         <div className="content">

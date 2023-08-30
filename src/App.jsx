@@ -31,6 +31,7 @@ function App() {
 
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchValue, setSearchValue] = useState('')
 
   return (
     <AppContext.Provider
@@ -43,10 +44,10 @@ function App() {
     >
       <div className="App">
         <div className="wrapper">
-          <Header />
+          <Header value={searchValue} setValue={setSearchValue}/>
 
           <Routes>
-            <Route path="/" element={<Home />}></Route>
+            <Route path="/" element={<Home value={searchValue} setValue={setSearchValue}/>}></Route>
             <Route path="/cart" element={<Cart />}></Route>
             <Route path="*" element={<NotFound />}></Route>
           </Routes>

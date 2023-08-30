@@ -1,0 +1,27 @@
+.wrapper {
+  position: relative;
+}
+
+.svg {
+  position: absolute;
+  top: 13px;
+  left: 12px;
+}
+
+.search {
+  padding: 16px 32px 16px 48px;
+  border: 1px solid #000;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+}
+
+.clear {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    cursor: pointer;
+
+    &:hover {
+        opacity: 0.6;
+    }
+}
