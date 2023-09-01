@@ -17,8 +17,6 @@ export default function Home({ value }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [currentPage, setCurrentPage]= useState(1)
 
-  const search = value ? `&search=${value}` : "";
-
   useEffect(() => {
     setIsLoading(true);
     const fetchPizzaFromBackend = async () => {
