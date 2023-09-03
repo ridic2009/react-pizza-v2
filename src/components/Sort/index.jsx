@@ -1,19 +1,26 @@
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-export default function Sort({ value, onChangeSort }) {
+import { useSelector, useDispatch } from "react-redux";
+import { onChangeSort } from "../../redux/slices/filterSlice";
+
+export default function Sort() {
+
+  const dispatch = useDispatch()
+  const sort = useSelector(state => state.filter.sort)
+
   const sortList = [
-    { name: "популярности", sort: "rating" },
-    { name: "цене", sort: "price" },
-    { name: "алфавиту", sort: "title" },
-    { name: "ещё какой-нибудь хуйне", sort: "title" },
-    { name: "и ещё", sort: "title" }
+    { name: "популярности", sortMethod: "rating" },
+    { name: "цене", sortMethod: "price" },
+    { name: "алфавиту", sortMethod: "title" },
+    { name: "ещё какой-нибудь хуйне", sortMethod: "title" },
+    { name: "и ещё", sortMethod: "title" }
   ];
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const onClickSort = methodName => {
-    onChangeSort(methodName);
+  const onClickSort = sort => {
+    dispatch(onChangeSort(sort));
     setIsOpen(false);
   };
 
@@ -34,7 +41,7 @@ export default function Sort({ value, onChangeSort }) {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setIsOpen(!isOpen)}>{value.name}</span>
+        <span onClick={() => setIsOpen(!isOpen)}>{sort.name}</span>
       </div>
       {isOpen && (
         <div className="sort__popup">
@@ -42,7 +49,7 @@ export default function Sort({ value, onChangeSort }) {
             {sortList.map((obj) => (
               <li
                 onClick={() => onClickSort(obj)}
-                className={value.sort === obj.sort && value.name === obj.name ? "active" : null}
+                className={sort.sortMethod === obj.sort && sort.name === obj.name ? "active" : null}
                 key={uuidv4()}
               >
                 {obj.name}

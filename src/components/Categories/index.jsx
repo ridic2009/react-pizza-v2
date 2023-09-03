@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 
-export default function Categories({value, onChangeCategory}) {
-
+export default function Categories({ value, onChangeCategory }) {
   const categories = [
     "Все",
     "Мясные",
