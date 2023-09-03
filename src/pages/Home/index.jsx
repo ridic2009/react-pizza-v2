@@ -18,8 +18,7 @@ export default function Home({ value }) {
   const [currentPage, setCurrentPage] = useState(1);
 
   // redux hooks
-  const categoryId = useSelector(state => state.filter.categoryId);
-  const sort = useSelector(state => state.filter.sort)
+  const { categoryId, sort } = useSelector(state => state.filter);
   const dispatch = useDispatch();
 
   const onChangeCategoryId = id => {
