@@ -44,10 +44,10 @@ function App() {
     >
       <div className="App">
         <div className="wrapper">
-          <Header value={searchValue} setValue={setSearchValue}/>
+          <Header />
 
           <Routes>
-            <Route path="/" element={<Home value={searchValue} />}></Route>
+            <Route path="/" element={<Home />}></Route>
             <Route path="/cart" element={<Cart />}></Route>
             <Route path="*" element={<NotFound />}></Route>
           </Routes>

@@ -1,6 +1,33 @@
+import debounce from "lodash.debounce";
 import styles from "./search.module.scss";
+import { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchValue } from "../../redux/slices/searchSlice";
+import { useState } from "react";
 
-export default function Search({ value, setValue }) {
+export default function Search() {
+  const [value, setValue] = useState('')
+  const dispatch = useDispatch();
+
+  const updateSearchValue = useCallback(
+    debounce(str => {
+      console.log("test");
+      dispatch(setSearchValue(str));
+    }, 450),
+    []
+  );
+
+  const onChange = event => {
+    setValue(event.target.value)
+    updateSearchValue(event.target.value);
+
+  };
+
+  const onClear = () => {
+    dispatch(setSearchValue(''))
+    setValue('')
+  }
+
   return (
     <div className={styles.wrapper}>
       <svg
@@ -20,7 +47,7 @@ export default function Search({ value, setValue }) {
       </svg>
       <input
         value={value}
-        onChange={event => setValue(event.target.value)}
+        onChange={onChange}
         className={styles.search}
         placeholder="Например, пепперони"
       />
@@ -32,7 +59,7 @@ export default function Search({ value, setValue }) {
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          onClick={() => setValue('')}
+          onClick={onClear}
         >
           <g>
             <path

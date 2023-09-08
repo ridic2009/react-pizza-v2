@@ -13,29 +13,29 @@ import { AppContext } from "../../App";
 
 import { setCategoryId } from "../../redux/slices/filterSlice";
 
-export default function Home({ value }) {
+export default function Home() {
   const { items, setItems, isLoading, setIsLoading } = useContext(AppContext);
   const [currentPage, setCurrentPage] = useState(1);
 
   // redux hooks
   const { categoryId, sort } = useSelector(state => state.filter);
+  const { searchValue } = useSelector(state => state.search)
   const dispatch = useDispatch();
 
   const onChangeCategoryId = id => {
-    console.log(id);
     dispatch(setCategoryId(id));
   };
 
-  console.log(categoryId);
-
   useEffect(() => {
+
+    const search = searchValue ? `search=${searchValue}&` : ''
+    const category = categoryId > 0 ? `&category=${categoryId}` : ''
+
     setIsLoading(true);
     const fetchPizzaFromBackend = async () => {
       try {
         const resp = await fetch(
-          `https://64e4d6a0c55563802913d5cf.mockapi.io/pizza?page=${currentPage}&limit=4&sortBy=${
-            sort.sortMethod
-          }&category=${categoryId === 0 ? "" : categoryId}&order=desc`
+          `https://64e4d6a0c55563802913d5cf.mockapi.io/pizza?${search}page=${currentPage}&limit=4&sortBy=${sort.sortMethod}${category}&order=desc`
         );
         const data = await resp.json();
         setItems(data);
@@ -47,7 +47,7 @@ export default function Home({ value }) {
       }
     };
     fetchPizzaFromBackend();
-  }, [sort, categoryId, value, currentPage]);
+  }, [sort, categoryId, searchValue, currentPage]);
 
   return (
     <div className="content">
