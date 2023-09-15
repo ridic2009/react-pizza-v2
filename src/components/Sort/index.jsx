@@ -3,19 +3,21 @@ import { v4 as uuidv4 } from "uuid";
 
 import { useSelector, useDispatch } from "react-redux";
 import { onChangeSort } from "../../redux/slices/filterSlice";
+import { useEffect } from "react";
+import { useRef } from "react";
+
+export const sortList = [
+  { name: "популярности", sortMethod: "rating" },
+  { name: "цене", sortMethod: "price" },
+  { name: "алфавиту", sortMethod: "title" },
+  { name: "ещё какой-нибудь хуйне", sortMethod: "title" },
+  { name: "и ещё", sortMethod: "title" }
+];
 
 export default function Sort() {
-
-  const dispatch = useDispatch()
-  const sort = useSelector(state => state.filter.sort)
-
-  const sortList = [
-    { name: "популярности", sortMethod: "rating" },
-    { name: "цене", sortMethod: "price" },
-    { name: "алфавиту", sortMethod: "title" },
-    { name: "ещё какой-нибудь хуйне", sortMethod: "title" },
-    { name: "и ещё", sortMethod: "title" }
-  ];
+  const dispatch = useDispatch();
+  const sort = useSelector(state => state.filter.sort);
+  const sortRef = useRef()
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -24,8 +26,20 @@ export default function Sort() {
     setIsOpen(false);
   };
 
+  useEffect(() => {
+    const handleClick = (event) => {
+      if (!event.composedPath().includes(sortRef.current)) {
+        setIsOpen(false)
+      }
+    }
+
+    document.body.addEventListener('click', handleClick)
+
+    return () => document.body.removeEventListener('click', handleClick)
+  }, [])
+
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
           transform={isOpen ? "rotate(0)" : "rotate(180)"}
@@ -46,10 +60,14 @@ export default function Sort() {
       {isOpen && (
         <div className="sort__popup">
           <ul>
-            {sortList.map((obj) => (
+            {sortList.map(obj => (
               <li
                 onClick={() => onClickSort(obj)}
-                className={sort.sortMethod === obj.sort && sort.name === obj.name ? "active" : null}
+                className={
+                  sort.sortMethod === obj.sort && sort.name === obj.name
+                    ? "active"
+                    : null
+                }
                 key={uuidv4()}
               >
                 {obj.name}
