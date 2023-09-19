@@ -28,7 +28,7 @@ export default function PizzaItem({
       title,
       price,
       imageUrl,
-      size: activeSize,
+      size: sizes[activeSize],
       type: typeOfDough[activeType]
     };
 
