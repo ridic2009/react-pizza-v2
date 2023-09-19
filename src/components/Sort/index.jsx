@@ -35,6 +35,7 @@ export default function Sort() {
 
     document.body.addEventListener('click', handleClick)
 
+    // При unmount
     return () => document.body.removeEventListener('click', handleClick)
   }, [])
 
