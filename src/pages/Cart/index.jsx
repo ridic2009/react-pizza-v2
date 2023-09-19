@@ -1,13 +1,17 @@
-
 import { useDispatch, useSelector } from "react-redux";
 import CartItem from "../../components/CartItem";
 
 import { v4 as uuidv4 } from "uuid";
+import { clear } from "../../redux/slices/cartSlice";
 
 export default function Cart() {
+  const dispatch = useDispatch();
+  const {items, totalPrice} = useSelector(state => state.cart);
+  const totalCount = items.reduce((sum, object) => sum + object.count, 0)
 
-  const dispatch = useDispatch()
-  const items = useSelector(state => state.cart.items)
+  const removeAll = () => {
+    dispatch(clear())
+  }
 
   return (
     <div className="content">
@@ -83,25 +87,28 @@ export default function Cart() {
               ></path>
             </svg>
 
-            <span>Очистить корзину</span>
+            <span onClick={removeAll}>Очистить корзину</span>
           </div>
         </div>
         <div className="content__items">
-            {items.map(item => <CartItem key={uuidv4()} {...item}/>)}
+          {items.map(item => (
+            <CartItem key={uuidv4()} {...item} />
+          ))}
         </div>
         <div className="cart__bottom">
           <div className="cart__bottom-details">
             <span>
-              {" "}
-              Всего пицц: <b>3 шт.</b>{" "}
+              Всего пицц: <b>{totalCount} шт.</b>
             </span>
             <span>
-              {" "}
-              Сумма заказа: <b>900 ₽</b>{" "}
+              Сумма заказа: <b>{totalPrice} ₽</b>
             </span>
           </div>
           <div className="cart__bottom-buttons">
-            <a href="/" className="button button--outline button--add go-back-btn">
+            <a
+              href="/"
+              className="button button--outline button--add go-back-btn"
+            >
               <svg
                 width="8"
                 height="14"

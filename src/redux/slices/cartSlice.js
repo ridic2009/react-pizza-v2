@@ -35,6 +35,12 @@ export const cartSlice = createSlice({
             state.items = state.items.filter(object => object.id !== action.payload)
         },
 
+        minus(state, action) {
+            const foundItem = state.items.find(object => object.id === action.payload.id)
+
+            if (foundItem && foundItem.count > 1) foundItem.count--
+        },
+
         clear(state) {
             state.items = []
         }
@@ -44,6 +50,6 @@ export const cartSlice = createSlice({
 })
 
 
-export const { addItem, removeItem, clear } = cartSlice.actions
+export const { addItem, removeItem, clear, minus } = cartSlice.actions
 
 export default cartSlice.reducer
