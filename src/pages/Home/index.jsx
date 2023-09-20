@@ -7,7 +7,7 @@ import Pagination from "../../components/Pagination";
 
 // libs and hooks
 import { v4 as uuidv4 } from "uuid";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../App";
@@ -20,7 +20,6 @@ import {
 } from "../../redux/slices/filterSlice";
 
 export default function Home() {
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -46,14 +45,19 @@ export default function Home() {
       const data = await resp.json();
       setItems(data);
     } catch (error) {
-      console.error("При запросе данных произошла ошибка! >:(", error);
+      console.error("При запросе данных произошла ошибка!", error);
     } finally {
       setIsLoading(false);
       window.moveTo(0, 0);
     }
   };
 
-// Если изменили параметры и был первый рендер
+  // Запрашиваем пиццы при первом рендере компонента Home
+  useEffect(() => {
+    fetchPizzaFromBackend();
+  }, []);
+
+  // Если изменили параметры и был первый рендер
   useEffect(() => {
     if (isMounted.current) {
       const qs = QueryString.stringify({
