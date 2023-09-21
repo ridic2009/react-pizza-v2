@@ -19,6 +19,8 @@ import {
   setFilters
 } from "../../redux/slices/filterSlice";
 
+import { setItems } from "../../redux/slices/pizzaSlice";
+
 export default function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -26,29 +28,38 @@ export default function Home() {
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
-  const { items, setItems, isLoading, setIsLoading } = useContext(AppContext);
+  const { isLoading, setIsLoading } = useContext(AppContext);
 
   // redux hooks
   const { categoryId, sort, currentPage } = useSelector(state => state.filter);
   const { searchValue } = useSelector(state => state.search);
+  const items = useSelector(state => state.pizza.items)
 
   // Получение пицц с мокапи
   const fetchPizzaFromBackend = async () => {
+
     setIsLoading(true);
     const search = searchValue ? `search=${searchValue}&` : "";
     const category = categoryId > 0 ? `&category=${categoryId}` : "";
 
     try {
+
       const resp = await fetch(
         `https://64e4d6a0c55563802913d5cf.mockapi.io/pizza?${search}page=${currentPage}&limit=4&sortBy=${sort.sortMethod}${category}&order=desc`
       );
+
       const data = await resp.json();
-      setItems(data);
+      dispatch(setItems(data))
+
     } catch (error) {
+
       console.error("При запросе данных произошла ошибка!", error);
+
     } finally {
+
       setIsLoading(false);
       window.moveTo(0, 0);
+
     }
   };
 
