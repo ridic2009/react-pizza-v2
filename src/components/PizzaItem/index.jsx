@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-import { addItem } from "../../redux/slices/cartSlice";
+import { addItem} from "../../redux/slices/cartSlice";
 
 const typeOfDough = ["тонкое", "традиционное"];
 
@@ -13,10 +13,10 @@ export default function PizzaItem({
   sizes,
   types
 }) {
+
   const dispatch = useDispatch();
-  const cartItem = useSelector(state =>
-    state.cart.items.find(object => object.id === id)
-  );
+  const cartItem = useSelector(state => state.cart.items.find(object => object.id === id));
+
   const [activeType, setActiveType] = useState(0);
   const [activeSize, setActiveSize] = useState(0);
 

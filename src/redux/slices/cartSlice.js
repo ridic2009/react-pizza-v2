@@ -17,6 +17,10 @@ export const cartSlice = createSlice({
             // иначе пушим в массив товаров новый объект у которого будет всё, что было в переданном объекте и счётчик с начальным значением 1
             if (foundItem) {
                 foundItem.count++
+
+                if (foundItem.count > 99) {
+                    foundItem.count--
+                }
             } else {
                 state.items.push({
                     ...action.payload,
@@ -32,13 +36,23 @@ export const cartSlice = createSlice({
 
         // Фпльтрует массив items отбрасывая те элементы, у которых айди не равен айди передаваемого элемента
         removeItem(state, action) {
-            state.items = state.items.filter(object => object.id !== action.payload)
+
+            const filteredItems = state.items.filter(object => object.id !== action.payload.id)
+
+            // Убавляем итоговую цену на стоимость пиццы умноженную на количество пицц (цену и количество берём из action.payload)
+            state.totalPrice = state.totalPrice - (action.payload.price * action.payload.count)
+
+            state.items = filteredItems
+            
         },
 
         minus(state, action) {
             const foundItem = state.items.find(object => object.id === action.payload.id)
 
-            if (foundItem && foundItem.count > 1) foundItem.count--
+            if (foundItem && foundItem.count > 1) {
+                foundItem.count--
+                state.totalPrice = state.totalPrice - foundItem.price
+            }
         },
 
         clear(state) {
@@ -50,6 +64,7 @@ export const cartSlice = createSlice({
     },
 })
 
+export const cartSelector = state => state.cart
 
 export const { addItem, removeItem, clear, minus } = cartSlice.actions
 

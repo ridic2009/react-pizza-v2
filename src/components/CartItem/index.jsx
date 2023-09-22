@@ -25,7 +25,8 @@ export default function CartItem({
   };
 
   const onRemove = () => {
-    dispatch(removeItem(id));
+    dispatch(removeItem({id, price, count}));
+                      //{ action.payload }//
   };
 
   return (

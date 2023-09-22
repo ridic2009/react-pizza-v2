@@ -6,12 +6,12 @@ import { clear } from "../../redux/slices/cartSlice";
 
 export default function Cart() {
   const dispatch = useDispatch();
-  const {items, totalPrice} = useSelector(state => state.cart);
-  const totalCount = items.reduce((sum, object) => sum + object.count, 0)
+  const { items, totalPrice } = useSelector(state => state.cart);
+  const totalCount = items.reduce((sum, object) => sum + object.count, 0);
 
   const removeAll = () => {
-    dispatch(clear())
-  }
+    dispatch(clear());
+  };
 
   return (
     <div className="content">
@@ -91,9 +91,11 @@ export default function Cart() {
           </div>
         </div>
         <div className="content__items">
-          {items.map(item => (
-            <CartItem key={uuidv4()} {...item} />
-          ))}
+          {items.length > 0 ? (
+            items.map(item => <CartItem key={uuidv4()} {...item} />)
+          ) : (
+            <div style={{padding: 40, textAlign: 'center'}}>Корзина пуста</div>
+          )}
         </div>
         <div className="cart__bottom">
           <div className="cart__bottom-details">
