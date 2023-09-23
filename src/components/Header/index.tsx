@@ -5,15 +5,17 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { cartSelector } from "../../redux/slices/cartSlice";
 
-export default function Header({value, setValue}) {
-
-  const {totalPrice, items} = useSelector(cartSelector)
-  const totalCount = items.reduce((sum, object) => sum + object.count, 0)
+export default function Header() {
+  const { totalPrice, items } = useSelector(cartSelector);
+  const totalCount = items.reduce(
+    (sum: number, object: { count: number }) => sum + object.count,
+    0
+  );
 
   return (
     <div className="header">
       <div className="container">
-        <Link to='/'>
+        <Link to="/">
           <div className="header__logo">
             <img width="38" src={pizzaLogo} alt="Pizza logo" />
             <div>
@@ -22,7 +24,7 @@ export default function Header({value, setValue}) {
             </div>
           </div>
         </Link>
-        <Search value={value} setValue={setValue}/>
+        <Search />
         <div className="header__cart">
           <Link to="/cart">
             <div className="button button--cart">

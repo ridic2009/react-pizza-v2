@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = {
+const initialState: {items: any[], totalPrice: number} = {
     items: [],
     totalPrice: 0
 }

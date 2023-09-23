@@ -1,3 +1,4 @@
+import React from "react";
 import Header from "./components/Header";
 
 import Home from "./pages/Home";
@@ -8,9 +9,9 @@ import "./scss/app.scss";
 import { createContext, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
-export const AppContext = createContext();
+export const AppContext = createContext({});
 
-function App() {
+export default function App() {
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -36,5 +37,3 @@ function App() {
     </AppContext.Provider>
   );
 }
-
-export default App;
