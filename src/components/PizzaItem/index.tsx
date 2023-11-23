@@ -1,9 +1,18 @@
-import { useState } from "react";
+import { ReactElement, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { addItem} from "../../redux/slices/cartSlice";
 
 const typeOfDough = ["тонкое", "традиционное"];
+
+type PizzaItemProps = {
+  id: string,
+  title: string,
+  price: number,
+  imageUrl: string,
+  sizes: number[],
+  types: number[]
+}
 
 export default function PizzaItem({
   id,
@@ -12,7 +21,7 @@ export default function PizzaItem({
   imageUrl,
   sizes,
   types
-}) {
+}: PizzaItemProps): ReactElement {
 
   const dispatch = useDispatch();
   const cartItem = useSelector(state => state.cart.items.find(object => object.id === id));

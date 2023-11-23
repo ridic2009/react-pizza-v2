@@ -7,7 +7,7 @@ import Pagination from "../../components/Pagination";
 
 // libs and hooks
 import { v4 as uuidv4 } from "uuid";
-import { useContext, useEffect, useRef } from "react";
+import { ReactElement, useContext, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../App";
@@ -24,7 +24,7 @@ import {
 import { fetchPizza, pizzaSelector } from "../../redux/slices/pizzaSlice";
 import { searchSelector } from "../../redux/slices/searchSlice";
 
-export default function Home() {
+export default function Home(): ReactElement {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -122,7 +122,7 @@ export default function Home() {
         </div>
         <h2 className="content__title">Все пиццы</h2>
         {status === "error cy4ka" ? (
-          <div>Ошибка вышла, как же так то нахуй? Не ебу!</div>
+          <div>Ошибка</div>
         ) : (
           <div className="content__items">
             {status === "pending"

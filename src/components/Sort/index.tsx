@@ -6,7 +6,12 @@ import { onChangeSort } from "../../redux/slices/filterSlice";
 import { useEffect } from "react";
 import { useRef } from "react";
 
-export const sortList = [
+type SortItem = {
+  name: string;
+  sortMethod: string
+}
+
+export const sortList: SortItem[] = [
   { name: "популярности", sortMethod: "rating" },
   { name: "цене", sortMethod: "price" },
   { name: "алфавиту", sortMethod: "title" },

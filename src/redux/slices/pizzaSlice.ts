@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
+
+
 export const fetchPizza = createAsyncThunk(
     'pizza/fetchPizza',
     async ({search, category, currentPage, sort}) => {
