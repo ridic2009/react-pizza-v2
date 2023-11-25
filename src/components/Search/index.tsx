@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSearchValue } from "../../redux/slices/searchSlice";
 import { useState } from "react";
 
+
 export default function Search() {
   const [value, setValue] = useState('')
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ export default function Search() {
     []
   );
 
-  const onChange = event => {
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value)
     updateSearchValue(event.target.value);
 

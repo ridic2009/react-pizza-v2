@@ -72,7 +72,7 @@ export default function Sort() {
                 className={
                   sort.sortMethod === obj.sort && sort.name === obj.name
                     ? "active"
-                    : null
+                    : undefined
                 }
                 key={uuidv4()}
               >

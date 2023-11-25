@@ -54,7 +54,7 @@ export default function PizzaItem({
             {types.map((num, idx) => (
               <li
                 onClick={() => setActiveType(idx)}
-                className={activeType === idx ? "active" : null}
+                className={activeType === idx ? "active" : undefined}
                 key={uuidv4()}
               >
                 {typeOfDough[num]}
@@ -65,7 +65,7 @@ export default function PizzaItem({
             {sizes.map((size, idx) => (
               <li
                 onClick={() => setActiveSize(idx)}
-                className={activeSize === idx ? "active" : null}
+                className={activeSize === idx ? "active" : undefined}
                 key={uuidv4()}
               >
                 {size} см
