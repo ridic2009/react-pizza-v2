@@ -22,18 +22,18 @@ export const sortList: SortItem[] = [
 export default function Sort() {
   const dispatch = useDispatch();
   const sort = useSelector(state => state.filter.sort);
-  const sortRef = useRef()
+  const sortRef = useRef(null)
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const onClickSort = sort => {
+  const onClickSort = (sort: object) => {
     dispatch(onChangeSort(sort));
     setIsOpen(false);
   };
 
   useEffect(() => {
-    const handleClick = (event) => {
-      if (!event.composedPath().includes(sortRef.current)) {
+    const handleClick = (event: MouseEvent) => {
+      if (sortRef.current && !event.composedPath().includes(sortRef.current)) {
         setIsOpen(false)
       }
     }
@@ -70,7 +70,7 @@ export default function Sort() {
               <li
                 onClick={() => onClickSort(obj)}
                 className={
-                  sort.sortMethod === obj.sort && sort.name === obj.name
+                  sort.sortMethod === obj.sortMethod && sort.name === obj.name
                     ? "active"
                     : undefined
                 }
