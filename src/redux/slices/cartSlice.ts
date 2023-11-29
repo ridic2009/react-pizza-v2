@@ -1,6 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { RootState } from '../store'
 
-const initialState: {items: any[], totalPrice: number} = {
+interface ICartItem {
+    id: number,
+    count: number,
+    price: number
+}
+
+interface ICartSlice {
+    items: ICartItem[],
+    totalPrice: number
+}
+
+const initialState: ICartSlice = {
     items: [],
     totalPrice: 0
 }
@@ -64,7 +76,7 @@ export const cartSlice = createSlice({
     },
 })
 
-export const cartSelector = state => state.cart
+export const cartSelector = (state: RootState) => state.cart
 
 export const { addItem, removeItem, clear, minus } = cartSlice.actions
 

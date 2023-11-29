@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { RootState } from '../store'
 
 const initialState = {
     categoryId: 0,
@@ -33,7 +34,7 @@ export const filterSlice = createSlice({
 })
 
 
-export const filterSelector = state => state.filter
+export const filterSelector = (state: RootState) => state.filter
 
 export const { setCategoryId, onChangeSort, setCurrentPage, setFilters } = filterSlice.actions
 
