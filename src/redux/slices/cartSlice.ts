@@ -1,10 +1,15 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../store'
 
-interface ICartItem {
-    id: number,
+export interface ICartItem {
+    id: string,
     count: number,
-    price: number
+    price: number,
+    title: string,
+    imageUrl: string,
+    type: string,
+    size: number,
+
 }
 
 interface ICartSlice {
@@ -22,7 +27,7 @@ export const cartSlice = createSlice({
     initialState,
     reducers: {
 
-        addItem(state, action) {
+        addItem(state, action: PayloadAction<ICartItem>) {
             const foundItem = state.items.find(object => object.id === action.payload.id)
 
             // Если в массиве товаров нашли такой же объект как и передаваемый, то прибавляем счётчик у этого товара,

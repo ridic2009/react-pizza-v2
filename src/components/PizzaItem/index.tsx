@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { addItem} from "../../redux/slices/cartSlice";
 
+import { ICartItem } from "../../redux/slices/cartSlice";
+
 const typeOfDough = ["тонкое", "традиционное"];
 
 type PizzaItemProps = {
@@ -32,13 +34,14 @@ export default function PizzaItem({
   const addedCount = cartItem ? cartItem.count : 0
 
   const onAdd = () => {
-    const addedItem = {
+    const addedItem: ICartItem = {
       id,
       title,
       price,
       imageUrl,
       size: sizes[activeSize],
-      type: typeOfDough[activeType]
+      type: typeOfDough[activeType],
+      count: 0
     };
 
     dispatch(addItem(addedItem));
