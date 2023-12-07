@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { useRef } from "react";
 import { RootState } from "../../redux/store";
 
-type SortItem = {
+export type SortItem = {
   name: string;
   sortMethod: string
 }
@@ -27,7 +27,7 @@ export default function Sort() {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const onClickSort = (sort: object) => {
+  const onClickSort = (sort: SortItem) => {
     dispatch(onChangeSort(sort));
     setIsOpen(false);
   };

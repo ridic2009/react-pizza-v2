@@ -1,15 +1,11 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../store'
+import { SortItem } from '../../components/Sort'
 
-type TSort = {
-    name: string,
-    sortMethod: string
-}
-
-interface IFilterSlice {
+export interface IFilterSlice {
     categoryId: number,
     currentPage: number,
-    sort: TSort
+    sort: SortItem
 }
 
 const initialState: IFilterSlice = {
@@ -28,7 +24,7 @@ export const filterSlice = createSlice({
         setCategoryId(state, action: PayloadAction<number>) {
             state.categoryId = action.payload
         },
-        onChangeSort(state, action: PayloadAction<TSort>) {
+        onChangeSort(state, action: PayloadAction<SortItem>) {
             state.sort = action.payload
         },
 

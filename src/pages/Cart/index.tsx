@@ -3,10 +3,11 @@ import CartItem from "../../components/CartItem";
 
 import { v4 as uuidv4 } from "uuid";
 import { clear } from "../../redux/slices/cartSlice";
+import { RootState } from "../../redux/store";
 
 export default function Cart() {
   const dispatch = useDispatch();
-  const { items, totalPrice } = useSelector(state => state.cart);
+  const { items, totalPrice } = useSelector((state: RootState) => state.cart);
   const totalCount = items.reduce((sum: number, object: {count: number}) => sum + object.count, 0);
 
   const removeAll = () => {

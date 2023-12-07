@@ -1,13 +1,13 @@
 import { useDispatch } from "react-redux";
 import { addItem, minus, removeItem } from "../../redux/slices/cartSlice";
 
-type CartItemProps = {
+type ICartItemProps = {
   id: string,
   title: string,
   price: number,
   imageUrl: string,
-  type: number[],
-  size: number[],
+  type: string,
+  size: number,
   count: number
 }
 
@@ -19,23 +19,43 @@ export default function CartItem({
   type,
   size,
   count
-}: CartItemProps) {
+}: ICartItemProps) {
   const dispatch = useDispatch();
 
   const onPlus = () => {
     dispatch(
       addItem({
-        id
+        id,
+        count: 0,
+        price: 0,
+        title: "",
+        imageUrl: "",
+        type: "",
+        size: 0
       })
     );
   };
 
   const onMinus = () => {
-    dispatch(minus({id}));
+    dispatch(minus({
+      id,
+      count: 0,
+      price: 0,
+      title: "",
+      imageUrl: "",
+      type: "",
+      size: 0
+    }));
   };
 
   const onRemove = () => {
-    dispatch(removeItem({id, price, count}));
+    dispatch(removeItem({
+      id, price, count,
+      title: "",
+      imageUrl: "",
+      type: "",
+      size: 0
+    }));
                       //{ action.payload }//
   };
 

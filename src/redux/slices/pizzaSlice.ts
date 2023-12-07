@@ -1,70 +1,92 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { RootState } from '../store';
-
-type TFetchPizza = {
-    search: string,
-    category: string,
-    currentPage: string,
-    sort: { sortMethod: string }
-  }
-
-export const fetchPizza = createAsyncThunk(
-    'pizza/fetchPizza',
-    async ({search, category, currentPage, sort}: TFetchPizza) => {
-        const response = await fetch(`https://64e4d6a0c55563802913d5cf.mockapi.io/pizza?${search}page=${currentPage}&limit=4&sortBy=${sort.sortMethod}${category}&order=desc`)
-        const data = await response.json();
-        return data
-    }
-)
-
-type TPizzaItem = {
-    id: string,
-    title: string,
-    price: number,
-    imageUrl: string,
-    sizes: number[],
-    types: number[]
-}
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../store";
+import { TPizzaItemProps } from "../../components/PizzaItem";
+import { SortItem } from "../../components/Sort";
 
 
 interface IPizzaSlice {
-    items: TPizzaItem[],
-    status: string
+  items: TPizzaItemProps[];
+  status: string;
 }
 
+export type SearchPizzaParams = {
+  search: string;
+  categoryId: number;
+  currentPage: string;
+  sort: SortItem;
+};
+
+export const fetchPizza = createAsyncThunk(
+  "pizza/fetchPizza",
+  async ({
+    search,
+    categoryId,
+    currentPage,
+    sort,
+  }: SearchPizzaParams): Promise<IPizzaSlice> => {
+    const response = await fetch(
+      `https://64e4d6a0c55563802913d5cf.mockapi.io/pizza?${search}page=${currentPage}&limit=4&sortBy=${sort.sortMethod}${categoryId}&order=desc`
+    );
+    const data = await response.json();
+    return { items: data, status: "success" };
+  }
+);
+
+export enum Status {
+  LOADING = "loading",
+  SUCCESS = "success",
+  ERROR = "error",
+}
 
 const initialState: IPizzaSlice = {
-    items: [],
-    status: 'loading'
-}
+  items: [],
+  status: Status.LOADING,
+};
 
 export const pizzaSlice = createSlice({
-    name: 'pizza',
-    initialState,
-    reducers: {
-        setItems(state, action) {
-            state.items = action.payload
-        }
+  name: "pizza",
+  initialState,
+  reducers: {
+    setItems(state, action: PayloadAction<TPizzaItemProps[]>) {
+      state.items = action.payload;
     },
+  },
 
-    extraReducers: {
-        [fetchPizza.fulfilled]: (state, action) => {
-            state.items = action.payload
-            state.status = 'success'
-        },
-        [fetchPizza.pending]: (state) => {
-            state.status = 'pending'
-            state.items = []
-        },
-        [fetchPizza.rejected]: (state, action) => {
-            state.status = 'error cy4ka'
-            state.items = []
-        }
-    }
-})
+  extraReducers: (builder) => {
+    builder.addCase(fetchPizza.pending, (state) => {
+      state.status = Status.LOADING;
+      state.items = [];
+    }),
+      builder.addCase(fetchPizza.fulfilled, (state, action) => {
+        state.status = Status.SUCCESS;
+        state.items = action.payload.items;
+      }),
+      builder.addCase(fetchPizza.rejected, (state) => {
+        state.status = Status.ERROR;
+        state.items = [];
+      });
+  },
 
-export const pizzaSelector = (state: RootState) => state.pizza
+  // only js method
 
-export const { setItems } = pizzaSlice.actions
+  // extraReducers: {
+  //     [fetchPizza.fulfilled]: (state, action) => {
 
-export default pizzaSlice.reducer
+  //         state.status = 'success'
+  //     },
+  //     [fetchPizza.pending]: (state) => {
+  //         state.status = 'pending'
+  //         state.items = []
+  //     },
+  //     [fetchPizza.rejected]: (state, action) => {
+  //         state.status = 'error cy4ka'
+  //         state.items = []
+  //     }
+  // }
+});
+
+export const pizzaSelector = (state: RootState) => state.pizza;
+
+export const { setItems } = pizzaSlice.actions;
+
+export default pizzaSlice.reducer;

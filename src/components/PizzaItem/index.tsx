@@ -8,7 +8,7 @@ import { RootState } from "../../redux/store";
 
 const typeOfDough = ["тонкое", "традиционное"];
 
-type TPizzaItemProps = {
+export type TPizzaItemProps = {
   id: string,
   title: string,
   price: number,

@@ -8,7 +8,7 @@ import Pagination from "../../components/Pagination";
 // libs and hooks
 import { v4 as uuidv4 } from "uuid";
 import { ReactElement, useContext, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../App";
 import QueryString from "qs";
@@ -17,16 +17,22 @@ import {
   filterSelector,
   setCategoryId,
   setCurrentPage,
-  setFilters
+  setFilters,
 } from "../../redux/slices/filterSlice";
 
 // Функция запроса пицц с мокапи в редаксе
-import { fetchPizza, pizzaSelector } from "../../redux/slices/pizzaSlice";
-import { searchSelector } from "../../redux/slices/searchSlice";
+import {
+  SearchPizzaParams,
+  Status,
+  fetchPizza,
+  pizzaSelector,
+} from "../../redux/slices/pizzaSlice";
+import { searchSelector, setSearchValue } from "../../redux/slices/searchSlice";
+import { useAppDispatch } from "../../redux/store";
 
 export default function Home(): ReactElement {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const isSearch = useRef(false);
   const isMounted = useRef(false);
@@ -45,7 +51,14 @@ export default function Home(): ReactElement {
     const category = categoryId > 0 ? `&category=${categoryId}` : "";
 
     try {
-      dispatch(fetchPizza({ search, category, currentPage, sort }));
+      dispatch(
+        fetchPizza({
+          search,
+          categoryId,
+          currentPage: String(currentPage),
+          sort,
+        })
+      );
     } catch (error) {
       console.error("При запросе данных произошла ошибка!", error);
     } finally {
@@ -65,7 +78,7 @@ export default function Home(): ReactElement {
       const qs = QueryString.stringify({
         sortMethod: sort.sortMethod,
         categoryId,
-        currentPage
+        currentPage,
       });
 
       navigate(`?${qs}`);
@@ -76,18 +89,30 @@ export default function Home(): ReactElement {
   // Если был первый рендер, то проверяем URL параметры и сохраняем в редакс
   useEffect(() => {
     if (window.location.search) {
-      const parameters = QueryString.parse(window.location.search.substring(1));
+      const parameters = QueryString.parse(
+        window.location.search.substring(1)
+      )
+      console.log(parameters)
+      const sort = sortList.find(obj => obj.sortMethod === parameters.sortMethod);
 
-      const sort = sortList.find(
-        obj => obj.sortMethod === parameters.sortMethod
-      );
+      if (sort) {
+        parameters.sort = sort;
+      }
 
       dispatch(
         setFilters({
-          ...parameters,
-          sort
+          categoryId: parameters.categoryId,
+          currentPage: +parameters.currentPage,
+          sort: parameters.sort,
         })
       );
+
+      dispatch(
+        setSearchValue({
+          searchValue: parameters.search,
+        })
+      );
+
       isSearch.current = true;
     }
   }, []);
@@ -102,11 +127,11 @@ export default function Home(): ReactElement {
     isSearch.current = false;
   }, [sort.sortMethod, categoryId, searchValue, currentPage]);
 
-  const onChangeCategoryId = id => {
+  const onChangeCategoryId = (id: number) => {
     dispatch(setCategoryId(id));
   };
 
-  const onChangePage = page => {
+  const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page));
   };
 
@@ -116,21 +141,23 @@ export default function Home(): ReactElement {
         <div className="content__top">
           <Categories
             value={categoryId}
-            onChangeCategory={idx => onChangeCategoryId(idx)}
+            onChangeCategory={(idx) => onChangeCategoryId(idx)}
           />
           <Sort />
         </div>
         <h2 className="content__title">Все пиццы</h2>
-        {status === "error cy4ka" ? (
+        {status === Status.ERROR ? (
           <div>Ошибка</div>
         ) : (
           <div className="content__items">
-            {status === "pending"
-              ? [...new Array(10)].map(item => <Loader key={uuidv4()} />)
-              : items.map(item => <PizzaItem key={uuidv4()} {...item} />)}
+            {status === Status.LOADING
+              ? [...new Array(10)].map((item) => <Loader key={uuidv4()} />)
+              : items.map((item) => <PizzaItem key={uuidv4()} {...item} />)}
           </div>
         )}
-        <Pagination onChangePage={numberOfPage => onChangePage(numberOfPage)} />
+        <Pagination
+          onChangePage={(numberOfPage) => onChangePage(numberOfPage)}
+        />
       </div>
     </div>
   );
