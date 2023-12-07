@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { onChangeSort } from "../../redux/slices/filterSlice";
 import { useEffect } from "react";
 import { useRef } from "react";
+import { RootState } from "../../redux/store";
 
 type SortItem = {
   name: string;
@@ -21,7 +22,7 @@ export const sortList: SortItem[] = [
 
 export default function Sort() {
   const dispatch = useDispatch();
-  const sort = useSelector(state => state.filter.sort);
+  const sort = useSelector((state: RootState) => state.filter.sort);
   const sortRef = useRef(null)
 
   const [isOpen, setIsOpen] = useState(false);

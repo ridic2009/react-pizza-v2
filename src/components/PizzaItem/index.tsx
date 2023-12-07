@@ -4,10 +4,11 @@ import { v4 as uuidv4 } from "uuid";
 import { addItem} from "../../redux/slices/cartSlice";
 
 import { ICartItem } from "../../redux/slices/cartSlice";
+import { RootState } from "../../redux/store";
 
 const typeOfDough = ["тонкое", "традиционное"];
 
-type PizzaItemProps = {
+type TPizzaItemProps = {
   id: string,
   title: string,
   price: number,
@@ -23,10 +24,10 @@ export default function PizzaItem({
   imageUrl,
   sizes,
   types
-}: PizzaItemProps): ReactElement {
+}: TPizzaItemProps): ReactElement {
 
   const dispatch = useDispatch();
-  const cartItem = useSelector(state => state.cart.items.find(object => object.id === id));
+  const cartItem = useSelector((state: RootState) => state.cart.items.find(object => object.id === id));
 
   const [activeType, setActiveType] = useState(0);
   const [activeSize, setActiveSize] = useState(0);

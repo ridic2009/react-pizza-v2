@@ -52,7 +52,7 @@ export const cartSlice = createSlice({
         },
 
         // Фпльтрует массив items отбрасывая те элементы, у которых айди не равен айди передаваемого элемента
-        removeItem(state, action) {
+        removeItem(state, action: PayloadAction<ICartItem>) {
 
             const filteredItems = state.items.filter(object => object.id !== action.payload.id)
 
@@ -63,7 +63,7 @@ export const cartSlice = createSlice({
             
         },
 
-        minus(state, action) {
+        minus(state, action: PayloadAction<ICartItem>) {
             const foundItem = state.items.find(object => object.id === action.payload.id)
 
             if (foundItem && foundItem.count > 1) {

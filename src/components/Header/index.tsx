@@ -1,4 +1,4 @@
-import pizzaLogo from "../../assets/img/PizzaLogo.png";
+import pizzaLogo from "../../assets/img/pizza-logo.svg";
 import Search from "../Search";
 
 import { Link } from "react-router-dom";

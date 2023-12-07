@@ -1,11 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { RootState } from '../store';
 
-
+type TFetchPizza = {
+    search: string,
+    category: string,
+    currentPage: string,
+    sort: { sortMethod: string }
+  }
 
 export const fetchPizza = createAsyncThunk(
     'pizza/fetchPizza',
-    async ({search, category, currentPage, sort}) => {
+    async ({search, category, currentPage, sort}: TFetchPizza) => {
         const response = await fetch(`https://64e4d6a0c55563802913d5cf.mockapi.io/pizza?${search}page=${currentPage}&limit=4&sortBy=${sort.sortMethod}${category}&order=desc`)
         const data = await response.json();
         return data
